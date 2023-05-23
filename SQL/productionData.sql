@@ -15,10 +15,10 @@ CREATE TABLE plant (
     latin_name Varchar(100) not null unique,
     plant_description Varchar(1000) not null,
     plant_about Varchar(15000) null,
-    plant_spacing Varchar(50) not null,
+    plant_spacing decimal(2,2) not null,
+    plant_height int not null,
     coldest_usda_zone int not null,
     warmest_usda_zone int not null,
-    life_cycle Varchar(20) not null,
     bloom_color_id int not null,
      constraint fk_plant_bloom_color_id
         foreign key (bloom_color_id)
@@ -46,20 +46,20 @@ CREATE TABLE plant_germination (
         references plant(plant_id)
 );
 
-CREATE TABLE bloom_month (
-	bloom_month_id int primary key auto_increment,
+CREATE TABLE bloom_time (
+	bloom_time_id int primary key auto_increment,
     month_name Varchar(9)
 );
 /*Bridge table for bloom month and plant tables (many-to-many relationship)*/
 
-CREATE TABLE bloom_month_plant (
-	bloom_month_plant_id int primary key auto_increment,
-    bloom_month_id int not null,
+CREATE TABLE bloom_time_plant (
+	bloom_time_plant_id int primary key auto_increment,
+    bloom_time_id int not null,
     plant_id int not null,
-    constraint fk_bloom_month_plant_bloom_id
-		foreign key (bloom_month_id)
-        references bloom_month(bloom_month_id),
-	constraint fk_bloom_month_plant_plant_id
+    constraint fk_bloom_time_plant_bloom_id
+		foreign key (bloom_time_id)
+        references bloom_time(bloom_time_id),
+	constraint fk_bloom_time_plant_plant_id
 		foreign key (plant_id)
         references plant(plant_id)
 );
@@ -116,38 +116,21 @@ CREATE TABLE insect_image (
         references image(image_id)
 );
 
-CREATE TABLE sun_requirements (
-	sun_requirements_id int primary key auto_increment,
+CREATE TABLE sun_exposure (
+	sun_exposure_id int primary key auto_increment,
     sun_type Varchar(50)
 );
 
-CREATE TABLE plant_sun_requirements (
-	plant_sun_requirements_id int primary key auto_increment,
-    sun_requirements_id int not null,
+CREATE TABLE plant_sun_exposure (
+	plant_sun_exposure_id int primary key auto_increment,
+    sun_exposure_id int not null,
     plant_id int not null,
-    constraint fk_plant_sun_requirements_plant_id
+    constraint fk_plant_sun_exposure_plant_id
 		foreign key (plant_id)
         references plant(plant_id),
-	constraint fk_plant_sun_requirements_sun_requirements_id
-		foreign key (sun_requirements_id)
-        references sun_requirements(sun_requirements_id)
-);
-
-CREATE TABLE soil_type (
-	soil_type_id int primary key auto_increment,
-    soil_type_name Varchar(50)
-);
-
-CREATE TABLE plant_soil_type (
-	plant_soil_type_id int primary key auto_increment,
-    plant_id int not null, 
-    soil_type_id int not null,
-    constraint fk_plant_soil_type_plant_id
-		foreign key (plant_id)
-        references plant(plant_id),
-	constraint fk_plant_soil_type_soil_type_id
-		foreign key (soil_type_id)
-        references soil_type(soil_type_id)
+	constraint fk_plant_sun_exposure_sun_exposure_id
+		foreign key (sun_exposure_id)
+        references sun_exposure(sun_exposure_id)
 );
 
 CREATE TABLE soil_moisture (
@@ -165,4 +148,21 @@ CREATE TABLE plant_soil_moisture (
 	constraint fk_plant_soil_moisture_soil_moisture_id
 		foreign key (soil_moisture_id)
         references soil_moisture(soil_moisture_id)
+);
+
+CREATE TABLE plant_life_cycle (
+	plant_life_cycle_id int primary key auto_increment,
+    plant_life_cycle_type Varchar(20)
+);
+
+CREATE TABLE plant_plant_life_cycle (
+	plant_plant_life_cycle_id int primary key auto_increment,
+    plant_id int not null,
+    plant_life_cycle_id int not null,
+    constraint fk_plant_plant_life_cycle_plant_id
+		foreign key (plant_id)
+        references plant(plant_id),
+	constraint fk_plant_plant_life_cycle_plant_life_cycle_id
+		foreign key (plant_life_cycle_id)
+        references plant_life_cycle(plant_life_cycle_id)
 );

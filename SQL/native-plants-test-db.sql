@@ -15,7 +15,7 @@ CREATE TABLE plant (
     latin_name Varchar(100) not null unique,
     plant_description Varchar(1000) not null,
     plant_about Varchar(15000) null,
-    plant_spacing Varchar(50) not null,
+    plant_spacing decimal(2,2) not null,
     coldest_usda_zone int not null,
     warmest_usda_zone int not null,
     life_cycle Varchar(20) not null,
@@ -146,17 +146,19 @@ begin
     INSERT INTO bloom_color (bloom_color_id, color) VALUE
 		(1, 'white'),
         (2, 'pink'),
-        (3, 'yellow')
+        (3, 'yellow');
         
 	INSERT INTO plant (plant_id, common_name, latin_name, plant_description, plant_about, plant_spacing, 
 		coldest_usda_zone, warmest_usda_zone, life_cycle, bloom_color_id) VALUE
 		(1, 'Prairie Milkweed', 'Asclepias sullivantii', 'Easily grown from seed and bearing a very fragrant flower, 
-        Prairie Milkweed makes a nice addition to any sunny medium to medium-moist garden.', 'about text', '1-2 ft', 3, 7, 'Perenial', 2),
+        Prairie Milkweed makes a nice addition to any sunny medium to medium-moist garden.', 'about text', 1.5, 3, 7, 'Perenial', 2),
         (2, 'Wild Hyacinth', 'Camassia scilloides', 'Hyacinth, also called Atlantic Camas, is the only eastern species of its 
         genus, which is in the Lily family and characterized by squat bulbs, similar to those of small tulips in size and shape.', 
-        'about text', '8-12 in', 'Perenial', 4, 8, 1),
+        'about text', 0.75, 'Perenial', 4, 8, 1),
         (3, 'Black-Eyed Susan', 'Rudbeckia hirta', ' Black-eyed Susan is an opportunist that thrives easily in disturbed areas.  
         It has naturalized through most of the continent. A biennial, it blooms and completes its life cycle in its second year but will re-seed.', 
-        'about text', '10-12 in', 'Biennial', 3)
+        'about text', 1, 'Biennial', 3);
+        
+	END
         
         
